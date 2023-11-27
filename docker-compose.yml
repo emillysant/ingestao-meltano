@@ -1,0 +1,46 @@
+version: '3.7'
+
+
+services:
+  db:
+    container_name: northwind_postgres
+    image: postgres:12
+    environment:
+      POSTGRES_DB: northwind
+      POSTGRES_USER: northwind_user
+      POSTGRES_PASSWORD: thewindisblowing
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data
+      - ./data/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
+    ports:
+      - 5432:5432
+    networks:
+      - northwind_network
+
+
+  db_api:
+      container_name: northwind_api
+      image: db_api:0.1
+      ports:
+        - 80:80
+      networks:
+        - northwind_network
+
+  db_warehouse:
+    container_name: warehouse
+    image: postgres:12
+    environment:
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: warehouse_user
+      POSTGRES_PASSWORD: warehouse_password
+    volumes:
+      - ./db_warehouse:/var/lib/postgresql/data
+      - ./data/warehouse.sql:/docker-entrypoint-initdb.d/warehouse.sql
+    ports:
+      - 5434:5432
+    networks:
+      - northwind_network
+
+networks:
+  northwind_network:
+    driver: bridge
