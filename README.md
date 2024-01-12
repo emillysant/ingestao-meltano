@@ -15,9 +15,10 @@
 04 - instalar meltano:
     ```
     pip install meltano
+    ```
+    ```
     meltano init 
     ```
-
         e adicionar o nome do projeto (pokedesk_meltano)
 
 05 - apagar as pastas dentro do projeto 
